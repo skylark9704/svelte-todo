@@ -1,0 +1,16 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "..\\..\\TodoItem.svelte",
+    "..\\..\\TodoList.svelte",
+    "..\\..\\Header.svelte"
+  ],
+  "sourcesContent": [
+    "<script>\n\texport let todo;\n\texport let onDelete;\n</script>\n\n<style>\n\tbutton {\n\t\toutline: 'none';\n\t\tcolor: #212121;\n\t\tborder: 2px solid #eee;\n\t\tborder-radius: '10px';\n\t\tbackground-color: #FFF\n\t}\n</style>\n\n<li>{todo.title} <button on:click|once={onDelete(todo.id)}>Delete</button></li>",
+    "<script>\n  import TodoItem from \"./TodoItem.svelte\";\n  import TodoItemAdd from \"./TodoItemAdd.svelte\";\n  import { todos } from \"../store.js\";\n\n  const deleteEvent = id => {\n    todos.delete(id);\n  };\n\n  const addEvent = todo => {\n    todos.add(todo);\n  };\n</script>\n\n<style>\n  .flex-container {\n    display: flex;\n  }\n\n  .flex-child {\n\tflex: 1;\n\tpadding: 16px;\n  }\n\n  .flex-child:first-child {\n    margin-right: 20px;\n  }\n</style>\n\n<div class={'flex-container'}>\n  <div class={'flex-child'}>\n\t<h3>Todos</h3>\n    <ul>\n      {#each $todos as todo}\n        <TodoItem {todo} onDelete={deleteEvent} />\n      {/each}\n    </ul>\n  </div>\n\n  <div class={'flex-child'}>\n    <TodoItemAdd onAdd={addEvent} />\n  </div>\n</div>\n",
+    "<script>\r\n  import { onDestroy } from \"svelte\";\r\n  export let title = \"\";\r\n\r\n  const formatter = new Intl.DateTimeFormat(\"en\", {\r\n    hour12: true,\r\n    hour: \"numeric\",\r\n    minute: \"2-digit\",\r\n    second: \"2-digit\"\r\n  });\r\n\r\n  let time = formatter.format(new Date());\r\n\r\n  const interval = setInterval(() => {\r\n    time = formatter.format(new Date());\r\n  }, 1000);\r\n\r\n  onDestroy(() => {\r\n    clearInterval(interval);\r\n  });\r\n</script>\r\n\r\n<style>\r\n  .header {\r\n    padding: 8px 10px;\r\n    background-color: crimson;\r\n    color: whitesmoke;\r\n  }\r\n</style>\r\n\r\n<div class={'header'}>\r\n  <span>{title} | {time}</span>\r\n</div>\r\n"
+  ],
+  "names": [],
+  "mappings": "AAMC,MAAM,eAAC,CAAC,AACP,OAAO,CAAE,MAAM,CACf,KAAK,CAAE,OAAO,CACd,MAAM,CAAE,GAAG,CAAC,KAAK,CAAC,IAAI,CACtB,aAAa,CAAE,MAAM,CACrB,gBAAgB,CAAE,IAAI;CACvB,CAAC;ACGA,eAAe,cAAC,CAAC,AACf,OAAO,CAAE,IAAI,AACf,CAAC,AAED,WAAW,cAAC,CAAC,AACd,IAAI,CAAE,CAAC,CACP,OAAO,CAAE,IAAI,AACZ,CAAC,AAED,yBAAW,YAAY,AAAC,CAAC,AACvB,YAAY,CAAE,IAAI,AACpB,CAAC;ACHD,OAAO,eAAC,CAAC,AACP,OAAO,CAAE,GAAG,CAAC,IAAI,CACjB,gBAAgB,CAAE,OAAO,CACzB,KAAK,CAAE,UAAU,AACnB,CAAC"
+}
